@@ -24,11 +24,11 @@ class SolveView(GenericAPIView):
         x=self.request.data['x']
         y=self.request.data['y']
 
-        if (operation_type ==  'addition' ):
+        if (operation_type ==  '+' ):
             result = float(x) + float(y)
-        elif (operation_type ==  'subtraction' ):
+        elif (operation_type ==  '-' ):
             result = float(x) - float(y)
-        elif (operation_type ==  'multiplication' ):
+        elif (operation_type ==  '*' ):
             result = float(x) * float(y)
         else:
            return response.Response({ 'error':'invalid operation'}, status=status.HTTP_400_BAD_REQUEST, headers = header)     
