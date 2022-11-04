@@ -1,10 +1,10 @@
-from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from .serializers import InputSerializer
 from rest_framework import status, response
 
 # Create your views here.
 
+KEYWORDS = ['add','subtract','multiply','addition','subtraction','multiplication']
 
 class SolveView(GenericAPIView):
     serializer_class = InputSerializer
@@ -23,17 +23,38 @@ class SolveView(GenericAPIView):
         operation_type = self.request.data['operation_type']
         x=self.request.data['x']
         y=self.request.data['y']
+        operation_type_list = self.request.data['operation_type'].split()
+        print(len(operation_type_list))  
 
-        if (operation_type ==  'addition' ):
-            result = float(x) + float(y)
-        elif (operation_type ==  'subtraction' ):
-            result = float(x) - float(y)
-        elif (operation_type ==  'multiplication' ):
-            result = float(x) * float(y)
-        else:
-           return response.Response({ 'error':'invalid operation'}, status=status.HTTP_400_BAD_REQUEST, headers = header)     
-       
         
+        if (len(operation_type_list) == 1):
+           if (operation_type ==  'addition' ):
+            result = float(x) + float(y)
+           elif (operation_type ==  'subtraction' ):
+            result = float(x) - float(y)
+           elif (operation_type ==  'multiplication' ):
+            result = float(x) * float(y)
+           else:
+              return response.Response({ 'error':'invalid operation'}, status=status.HTTP_400_BAD_REQUEST, headers = header)     
+           return response.Response({ "slackUsername": 'JayJayDev', 'operation_type':operation_type , 'result':result}, status=status.HTTP_200_OK, headers = header)  
+        else :    
+            
+            print(operation_type_list)
 
-        return response.Response({ "slackUsername": 'JayJayDev', 'operation_type':operation_type, 'result':result}, status=status.HTTP_200_OK, headers = header)
+            if any((match := item)  in operation_type_list for item in KEYWORDS):
+                operation = match
+                
+                cleaned = [ x for x in operation_type_list if x.isdigit() ]
+            
+
+                if (operation ==  'add' or operation ==  'addition'):
+                    result = float(cleaned[0]) + float(cleaned[1])
+                elif (operation ==  'subtract' or operation == 'subtraction' ):
+                    result = float(cleaned[1]) - float(cleaned[0])
+                elif (operation ==  'multiplication' or operation == 'multiply'):
+                    result = float(cleaned[0]) * float(cleaned[1])
+        
+            
+
+            return response.Response({ "slackUsername": 'JayJayDev', 'operation_type':operation , 'result':result}, status=status.HTTP_200_OK, headers = header)
 
