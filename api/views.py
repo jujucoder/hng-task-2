@@ -4,7 +4,7 @@ from rest_framework import status, response
 
 # Create your views here.
 
-KEYWORDS = ['add','subtract','multiply','addition','subtraction','multiplication']
+KEYWORDS = ['add','subtract','multiply','addition','subtraction','multiplication','product']
 
 class SolveView(GenericAPIView):
     serializer_class = InputSerializer
@@ -24,7 +24,6 @@ class SolveView(GenericAPIView):
         x=self.request.data['x']
         y=self.request.data['y']
         operation_type_list = self.request.data['operation_type'].split()
-        print(len(operation_type_list))  
 
         
         if (len(operation_type_list) == 1):
@@ -39,7 +38,7 @@ class SolveView(GenericAPIView):
            return response.Response({ "slackUsername": 'JayJayDev', 'operation_type':operation_type , 'result':result}, status=status.HTTP_200_OK, headers = header)  
         else :    
             
-            print(operation_type_list)
+          
 
             if any((match := item)  in operation_type_list for item in KEYWORDS):
                 operation = match
@@ -49,10 +48,13 @@ class SolveView(GenericAPIView):
 
                 if (operation ==  'add' or operation ==  'addition'):
                     result = float(cleaned[0]) + float(cleaned[1])
+                    operation = 'addition'
                 elif (operation ==  'subtract' or operation == 'subtraction' ):
                     result = float(cleaned[1]) - float(cleaned[0])
-                elif (operation ==  'multiplication' or operation == 'multiply'):
+                    operation = 'subtraction'
+                elif (operation ==  'multiplication' or operation == 'multiply' or operation == 'product'):
                     result = float(cleaned[0]) * float(cleaned[1])
+                    operation= 'multiplication'
         
             
 
