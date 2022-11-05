@@ -4,7 +4,7 @@ from rest_framework import status, response
 
 # Create your views here.
 
-KEYWORDS = ['add','subtract','multiply','addition','subtraction','multiplication','product']
+KEYWORDS = ['add','subtract','multiply','addition','subtraction','multiplication','product','sum']
 
 class SolveView(GenericAPIView):
     serializer_class = InputSerializer
@@ -43,17 +43,16 @@ class SolveView(GenericAPIView):
             if any((match := item)  in operation_type_list for item in KEYWORDS):
                 operation = match
                 
-                cleaned = [ x for x in operation_type_list if x.isdigit() ]
             
 
-                if (operation ==  'add' or operation ==  'addition'):
-                    result = int(cleaned[0]) + int(cleaned[1])
+                if (operation ==  'add' or operation ==  'addition' or operation == 'sum'):
+                    result = int(x) + int(y)
                     operation = 'addition'
                 elif (operation ==  'subtract' or operation == 'subtraction' ):
-                    result = int(cleaned[1]) - int(cleaned[0])
+                    result = int(x) - int(y)
                     operation = 'subtraction'
                 elif (operation ==  'multiplication' or operation == 'multiply' or operation == 'product'):
-                    result = int(cleaned[0]) * int(cleaned[1])
+                    result = int(x) * int(y)
                     operation= 'multiplication'
         
             
