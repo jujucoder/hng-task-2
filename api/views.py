@@ -28,11 +28,11 @@ class SolveView(GenericAPIView):
         
         if (len(operation_type_list) == 1):
            if (operation_type ==  'addition' ):
-            result = float(x) + float(y)
+            result = int(x) + int(y)
            elif (operation_type ==  'subtraction' ):
-            result = float(x) - float(y)
+            result = int(x) - int(y)
            elif (operation_type ==  'multiplication' ):
-            result = float(x) * float(y)
+            result = int(x) * int(y)
            else:
               return response.Response({ 'error':'invalid operation'}, status=status.HTTP_400_BAD_REQUEST, headers = header)     
            return response.Response({ "slackUsername": 'JayJayDev', 'operation_type':operation_type , 'result':result}, status=status.HTTP_200_OK, headers = header)  
