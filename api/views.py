@@ -47,13 +47,13 @@ class SolveView(GenericAPIView):
             
 
                 if (operation ==  'add' or operation ==  'addition'):
-                    result = float(cleaned[0]) + float(cleaned[1])
+                    result = int(cleaned[0]) + int(cleaned[1])
                     operation = 'addition'
                 elif (operation ==  'subtract' or operation == 'subtraction' ):
-                    result = float(cleaned[1]) - float(cleaned[0])
+                    result = int(cleaned[1]) - int(cleaned[0])
                     operation = 'subtraction'
                 elif (operation ==  'multiplication' or operation == 'multiply' or operation == 'product'):
-                    result = float(cleaned[0]) * float(cleaned[1])
+                    result = int(cleaned[0]) * int(cleaned[1])
                     operation= 'multiplication'
         
             
